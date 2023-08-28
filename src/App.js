@@ -1,4 +1,3 @@
-// import './styles.css';
 import { useState } from 'react'
 
 function Item({value, handleDelete}){
@@ -11,24 +10,23 @@ function Item({value, handleDelete}){
 }
 
 export default function App() {
-  const [todos, setTodos] = useState(
-      [
-        'Walk dog',
-        'water plants',
-        'wash dishes'
-      ]
-    );
-
-  function handleSubmitCLick (){
-
-  }
+  const [todos, setTodos] = useState(['Walk dog','water plants','wash dishes']);
+  const [inputText, setInputText] = useState('');
 
   function handleDeleteClick (value) {
     let newTodos = todos.filter((element)=>element !== value)
     setTodos(newTodos)
   }
 
-  
+  function handleInputTextChange (e) {
+    setInputText(e.target.value);
+  }
+
+  function handleSubmit(){
+    let newTodos = [...todos, inputText];
+    setTodos(newTodos);
+    setInputText('');
+  }
 
   let items = todos.map((todo, i)=>{
     return <Item value={todo} key={`${todo}-${i}`} handleDelete={()=>handleDeleteClick(todo) } />
@@ -38,9 +36,14 @@ export default function App() {
     <div>
       <h1>Todo List</h1>
       <div>
-        <input type="text" placeholder="Add your task" />
+        <input 
+          type="text" 
+          value={inputText}
+          onChange={handleInputTextChange}
+          placeholder="Add your task" 
+        />
         <div>
-          <button>Submit</button>
+          <button onClick={handleSubmit}>Submit</button>
         </div>
       </div>
       <ul>
