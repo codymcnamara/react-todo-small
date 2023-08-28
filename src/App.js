@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+// import './styles.css';
+import { useState } from 'react'
 
-function App() {
+function Item({value, handleDelete}){
+  return(
+    <li>
+      <span>{value}</span>
+      <button onClick={handleDelete}>Delete</button>
+    </li>
+  )
+}
+
+export default function App() {
+  const [todos, setTodos] = useState(
+      [
+        'Walk dog',
+        'water plants',
+        'wash dishes'
+      ]
+    );
+
+  function handleSubmitCLick (){
+
+  }
+
+  function handleDeleteClick (value) {
+    let newTodos = todos.filter((element)=>element !== value)
+    setTodos(newTodos)
+  }
+
+  
+
+  let items = todos.map((todo, i)=>{
+    return <Item value={todo} key={`${todo}-${i}`} handleDelete={()=>handleDeleteClick(todo) } />
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Todo List</h1>
+      <div>
+        <input type="text" placeholder="Add your task" />
+        <div>
+          <button>Submit</button>
+        </div>
+      </div>
+      <ul>
+        {items}
+      </ul>
     </div>
   );
 }
-
-export default App;
